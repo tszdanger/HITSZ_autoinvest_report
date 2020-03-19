@@ -34,8 +34,7 @@ import time
 import easyquotation
 
 # 股票仓
-GPC = ['000725','600871','601988','601939','601398','601288','000651',\
-       '600129','002422','603197']
+GPC = ['600518','000623','002118','000423','000999','600222','600129','600479','600000','601818','601288','601166','000001']
 
 GPC_STRATAGE =[random.randint(0,4) for i in range(len(GPC))]
 
@@ -51,14 +50,16 @@ quotation = easyquotation.use('sina')
 def zoushi(GP):
     isdown = 0  # 0表示涨了
     isbodong = 0 # 0 表示稳定
-    zhangfu = round(((GP['close'] - GP['open'])),3)
-    zfbfb = round(((GP['close'] - GP['open']) / GP['open']),3)
+    zhangfu = round(((GP['now'] - GP['open'])),3)
+    zfbfb = round(((GP['now'] - GP['open']) / GP['open']),3)
     isdown = 0 if zhangfu>0 else 1
     if(abs(GP['high'] - GP['low']) >(10*abs(zhangfu))):
         isbodong = 1
     zoushi = '稳定' if isbodong==0 else '波动'
     updown = '上行' if isdown==0 else '下行'
     total_info = '这只股票今日走势总体而言'+zoushi+updown+'\n'
+    add = '建议买入\n' if random.randint(0,1)==1 else '建议卖出\n'
+    total_info += add
     return total_info
 
 #主要因素影响：国际形势、国内经济形势、政策面、资金面、技术面，……等个人看法。
@@ -68,10 +69,10 @@ def GPXXXX(GP_LIST):
     total_detail=[]
     for GP_NUM in GP_LIST:
         GP = quotation.real(GP_NUM)[GP_NUM]
-        zhangfu = round(((GP['close']-GP['open'])),3)
-        zfbfb  =round(((GP['close']-GP['open'])/GP['open']),3)
+        zhangfu = round(((GP['now']-GP['open'])),3)
+        zfbfb  =round(((GP['now']-GP['open'])/GP['open']),3)
         each_GP = '今日' + GP['name'] + '开盘为：' + str(GP['open']) +'\n' \
-        '收盘为:' + str(GP['close']) +'\n' \
+        '收盘为:' + str(GP['now']) +'\n' \
         '涨幅为' + str(zhangfu) + '涨幅百分比' + str(zfbfb)+'\n'
         total_detail.append(each_GP)
         total_detail.append(zoushi(GP))
@@ -85,14 +86,14 @@ def GZXXXX():
     # 名称
     name = market['sh000001']['name']
     # 涨幅
-    zhangfu = round((market['sh000001']['close'] - market['sh000001']['open']),3)
+    zhangfu = round((market['sh000001']['now'] - market['sh000001']['open']),3)
     # 涨幅百分比
     zfbfb = round(((zhangfu / market['sh000001']['open'])),3)
 
 
     line0 = a +'大盘情况分析\n'
     line1 = '今日' + name + '开盘为：' + str(market['sh000001']['open']) +'\n' \
-            '收盘为:' + str(market['sh000001']['close']) +'\n' \
+            '收盘为:' + str(market['sh000001']['now']) +'\n' \
             '涨幅为' + str(zhangfu) + '涨幅百分比' + str(zfbfb)+'\n'
     total_detail.append(line0)
     total_detail.append(line1)

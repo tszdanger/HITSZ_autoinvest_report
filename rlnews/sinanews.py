@@ -207,7 +207,7 @@ def get_news_content(url):
 
 
 if __name__ == '__main__':
-    market_title = get_rolling_news_csv(top=5, get_content=True, classify='全部')
+    market_title = get_rolling_news_csv(top=50, get_content=True, classify='全部')
 
     strategy = 0  # 0表示保守，1表示稳健，2表示激进
     NLP_analysis = 0  # 0-1数值根据市场反应自适应
